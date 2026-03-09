@@ -8,6 +8,14 @@ load_dotenv()
 
 # Configure Google Gemini API
 api_key = os.getenv("GOOGLE_API_KEY")
+
+# Fallback for Streamlit Cloud Secrets
+if not api_key:
+    try:
+        api_key = st.secrets["GOOGLE_API_KEY"]
+    except Exception:
+        pass
+
 if api_key:
     genai.configure(api_key=api_key)
 
@@ -150,3 +158,5 @@ if submitted:
                 
             except Exception as e:
                 st.error(f"An error occurred while generating recommendations: {e}")
+
+
